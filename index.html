@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Efecto 360</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="shortcut icon" href="favicon.svg">
+</head>
+<body>
+    <ul>
+        <li>
+            <a href="./index.html">Zapato</a>
+        </li>
+        <li>
+            <a href="./pokemon.html">Pokemon</a>
+        </li>
+    </ul>
+    <canvas width="768" height="512" id="canvas_image"></canvas>
+    <input type="range" name="range_effect" id="range_effect_slider" min="1" max="36" step="1" value="1">
+</body>
+<script>
+//variables
+const range_slider = document.querySelector('#range_effect_slider')
+const canvas = document.querySelector('#canvas_image')
+const contexto = canvas.getContext('2d');
+const images = [];
+//evento input del range input
+range_slider.addEventListener('input', handleInputSlider)
+//evento load de la página
+window.addEventListener('load', pageLoaded);
+//Función a ajecutar cuando cargue la pagina
+function pageLoaded(){
+    for(let i = 1; i <= 36; i++){
+        const number = i.toString().padStart(2, '00');
+        const url = `https://stockx-360.imgix.net/adidas-Yeezy-Boost-350-V2-Yecheil/Images/adidas-Yeezy-Boost-350-V2-Yecheil/Lv2/img${number}.jpg?auto=format,compress&w=559&q=90&dpr=2&updated_at=1574449122`;
+        const image = new Image();
+        image.src = url;
+        image.addEventListener('load', ()=> {
+            images[i] = image;
+            if(i == 1){
+                loadImage(i);
+            }
+        });
+    }
+}
+//Función a ejecutar cuando el input cambia de valor
+function handleInputSlider($event){
+    loadImage(this.value);
+}
+//Función a ejecutar cuando carga la imagen
+function loadImage(indice){
+    contexto.drawImage(images[indice], 0, 0, canvas.width, canvas.height);
+}
+</script>
+</html>

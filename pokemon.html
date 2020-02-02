@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Efecto 360 Pokemon</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="shortcut icon" href="favicon.svg">
+</head>
+<body>
+    <ul>
+        <li>
+            <a href="./index.html">Zapato</a>
+        </li>
+        <li>
+            <a href="./pokemon.html">Pokemon</a>
+        </li>
+    </ul>
+    <canvas width="1820" height="1080" id="canvas_image"></canvas>
+    <input type="range" name="range_effect" id="range_effect_slider" min="1" max="39" step="1" value="1">
+</body>
+<script>
+const range_slider = document.querySelector('#range_effect_slider')
+const canvas = document.querySelector('#canvas_image')
+const contexto = canvas.getContext('2d');
+console.log(range_slider)
+console.log(canvas)
+
+range_slider.addEventListener('input', handleInputSlider)
+
+const images = [];
+window.addEventListener('load', pageLoaded);
+
+function pageLoaded(){
+    for(let i = 1; i <= 39; i++){
+        const number = i.toString().padStart(2, '00');
+        const url = `./pokeball/${number}.jpg`;
+        console.log('number', number);
+        const image = new Image();
+        image.src = url;
+        image.addEventListener('load', ()=> {
+            images[i] = image;
+            if(i == 1){
+                loadImage(i);
+            }
+            console.log('loaed image', i)
+        });
+    }
+}
+
+function handleInputSlider($event){
+    console.log(this.value)
+    loadImage(this.value);
+}
+
+function loadImage(indice){
+    contexto.drawImage(images[indice], 0, 0, canvas.width, canvas.height);
+}
+</script>
+</html>
